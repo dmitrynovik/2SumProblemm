@@ -12,17 +12,28 @@ namespace TwoSum
         [Test]
         public void TestMedian0to9()
         {
-            var items = new[] { 9, 2, 6, 7, 8, 5, 4, 3, 1, 0 };
+            var items = new[] { 9, 2, 6, 7, 8, 5, 4, 3, 1 };
             var median = new MedianAlgorithm();
-            Assert.AreEqual(5, median.Calc(items));
+            items.ToList().ForEach(x =>
+            {
+                median.Add(x);
+            });
+
+            Assert.AreEqual(5, median.Add(0));
         }
 
         [Test]
         public void TestMedianOf100()
         {
-            var items = Enumerable.Range(1, 100);
             var median = new MedianAlgorithm();
-            Assert.AreEqual(51, median.Calc(items));
+            Enumerable.Range(1, 99)
+                .ToList()
+                .ForEach(x =>
+                {
+                    median.Add(x);
+                });
+
+            Assert.AreEqual(51, median.Add(100));
         }
 
         [Test]
@@ -40,8 +51,7 @@ namespace TwoSum
             long cum = 0;
             foreach (var n in numbers)
             {
-                list.Add(n);
-                var median = algorithm.Calc(list);
+                var median = algorithm.Add(n);
                 cum += median;
             }
 

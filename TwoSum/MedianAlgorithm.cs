@@ -1,47 +1,43 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
 
 namespace TwoSum
 {
     public class MedianAlgorithm
     {
-        public int Calc(IEnumerable<int> items)
-        {
-            var minQueue = new BinaryHeap<int>(false);
-            var maxQueue = new BinaryHeap<int>();
+        readonly BinaryHeap<int> _minQueue = new BinaryHeap<int>(false);
+        readonly BinaryHeap<int> _maxQueue = new BinaryHeap<int>();
 
-            foreach (var i in items)
+        public int Add(int i)
+        {
+            if (_minQueue.Count == _maxQueue.Count && _minQueue.Count == 0)
             {
-                if (minQueue.Count == maxQueue.Count && minQueue.Count == 0)
+                _minQueue.Add(i);
+            }
+            else if (_minQueue.Peek() >= i)
+            {
+                _minQueue.Add(i);
+                while (_minQueue.Count > _maxQueue.Count)
                 {
-                    minQueue.Add(i);
+                    var maxOfMin = _minQueue.Remove();
+                    _maxQueue.Add(maxOfMin);
                 }
-                else if (minQueue.Peek() >= i)
+            }
+            else
+            {
+                _maxQueue.Add(i);
+                while (_maxQueue.Count > _minQueue.Count)
                 {
-                    minQueue.Add(i);
-                    while (minQueue.Count > maxQueue.Count)
-                    {
-                        var maxOfMin = minQueue.Remove();
-                        maxQueue.Add(maxOfMin);
-                    }
-                }
-                else
-                {
-                    maxQueue.Add(i);
-                    while (maxQueue.Count > minQueue.Count)
-                    {
-                        var minOfMax = maxQueue.Remove();
-                        minQueue.Add(minOfMax);
-                    }
+                    var minOfMax = _maxQueue.Remove();
+                    _minQueue.Add(minOfMax);
                 }
             }
 
-            if (minQueue.Count == maxQueue.Count && minQueue.Count == 0)
+            if (_minQueue.Count == _maxQueue.Count && _minQueue.Count == 0)
             {
                 return default(int);
             }
 
-            return (maxQueue.Count >= minQueue.Count) ? maxQueue.Remove() : minQueue.Remove();
+            return (_maxQueue.Count >= _minQueue.Count) ? _maxQueue.Peek() : _minQueue.Peek();
         }
     }
 }
