@@ -8,14 +8,6 @@ using Stopwatch = System.Diagnostics.Stopwatch;
 
 namespace TwoSum
 {
-    public class LessThan : IComparer<long>
-    {
-        public int Compare(long x, long y)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     [TestFixture]
     public class Sum
     {

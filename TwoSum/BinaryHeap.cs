@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace TwoSum
 {
@@ -17,7 +16,7 @@ namespace TwoSum
         private int _count = 0;
         private int _capacity = DEFAULT_SIZE;
         private bool _sorted;
-        private bool _min;
+        private readonly bool _min;
 
         public int Count => _count;
 
