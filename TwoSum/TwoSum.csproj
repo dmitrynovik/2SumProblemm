@@ -47,12 +47,17 @@
     <Compile Include="BinaryHeap.cs" />
     <Compile Include="BinaryHeapTest.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="FileParser.cs" />
     <Compile Include="MedianAlgorithm.cs" />
+    <Compile Include="MedianAlgorithmTest.cs" />
     <Compile Include="Sum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="2sum.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Median.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -55,23 +55,8 @@ namespace TwoSum
 
         private static ICollection<long> ReadNumbers()
         {
-            var watch = Stopwatch.StartNew();
-            const string file = "2sum.txt";
-            var result = new HashSet<long>();
-            using (var stream = File.OpenRead(file))
-            {
-                using (var reader = new StreamReader(stream))
-                {
-                    string s;
-                    while ((s = reader.ReadLine()) != null)
-                    {
-                        result.Add(long.Parse(s));
-                    }
-                }
-            }
-            watch.Stop();
-            Debug.WriteLine("File read in {0}", watch.Elapsed);
-            return result;
+            var parser = new FileParser();
+            return parser.Read("2sum.txt");
         }
     }    
 }
