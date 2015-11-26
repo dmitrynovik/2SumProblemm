@@ -25,27 +25,33 @@ namespace TwoSum
             var numbers = ReadDictionary();
 
             int counter = 0;
-            int progress = 0;
-            foreach (var x in numbers.Keys)
+            var lowerHalf = GetLowerHalfOfKeys(numbers);
+
+            foreach (var i in Enumerable.Range(-10000, 10000))
             {
-                var y1 = -10000 - x;
-                var y2 = 10000 - x;
-                // Get all numbers in range [y1 ... y2]:
-                counter += GetRange(y1, y2).Count(j => numbers.ContainsKey(j));
-                progress++;
+                Debug.WriteLine(i);
+                foreach (var j in lowerHalf.Keys)
+                {
+                    if (j*2 != i && numbers.ContainsKey(i - j))
+                    {
+                        counter++;
+                    }
+                }
             }
 
             Console.WriteLine("Output:");
             Console.WriteLine(counter / 2);
         }
 
-        private static IEnumerable<long> GetRange(long start, long end)
+        private static Dictionary<long, long> GetLowerHalfOfKeys(IDictionary<long, object> numbers)
         {
-            for (long i = start; i <= end; i++)
-            {
-                yield return i;
-            }
-        } 
+            var sorted = numbers.Keys.ToArray();
+            Array.Sort(sorted);
+            var lh = new long[sorted.Length/2];
+            Array.Copy(sorted, lh, sorted.Length/2);
+            var lowerHalf = lh.ToDictionary(i => i, i => i);
+            return lowerHalf;
+        }
 
         private static IDictionary<long, object> ReadDictionary()
         {
