@@ -19,47 +19,58 @@ namespace TwoSum
     [TestFixture]
     public class Sum
     {
-
+        [Test]
+        public void TinyTest()
+        {
+            Assert.AreEqual(2, Calc2Sum(3, 4, new[] { 1L, 2, 3, 4 }));
+        }
 
         [Test]
-        public void Compute()
+        public void Compute10k()
         {
-            var numbers = ReadDictionary();
+            Calc2Sum(-10000, 10000, ReadDictionary());
+        }
 
-            int counter = 0;
+        private static int Calc2Sum(int low, int high, IEnumerable<long> numbers)
+        {
+            return Calc2Sum(low, high, numbers.ToDictionary(i => i, i => i));
+        }
+
+        private static int Calc2Sum(int low, int high, IDictionary<long, long> numbers)
+        {
             var lowerHalf = GetLowerHalfOfKeys(numbers);
-
-            foreach (var i in Enumerable.Range(-10000, 10000))
+            int counter = 0;
+            foreach (var sum in Enumerable.Range(low, high - low + 1))
             {
-                Debug.WriteLine(i);
-                foreach (var j in lowerHalf.Keys)
+                Debug.WriteLine(sum);
+                foreach (var i in numbers.Keys)
                 {
-                    if (j*2 != i && numbers.ContainsKey(i - j))
+                    var j = sum - i;
+                    if (i < j && numbers.ContainsKey(sum - i))
                     {
                         counter++;
                     }
                 }
             }
-
             Console.WriteLine("Output:");
             Console.WriteLine(counter);
+            return counter;
         }
 
-        private static Dictionary<long, long> GetLowerHalfOfKeys(IDictionary<long, object> numbers)
+        private static Dictionary<long, long> GetLowerHalfOfKeys(IDictionary<long, long> numbers)
         {
             var sorted = numbers.Keys.ToArray();
             Array.Sort(sorted);
             var lh = new long[sorted.Length/2];
             Array.Copy(sorted, lh, sorted.Length/2);
-            var lowerHalf = lh.ToDictionary(i => i, i => i);
-            return lowerHalf;
+            return lh.ToDictionary(i => i, i => i);
         }
 
-        private static IDictionary<long, object> ReadDictionary()
+        private static IDictionary<long, long> ReadDictionary()
         {
             var watch = Stopwatch.StartNew();
             const string file = "2sum.txt";
-            var result = new Dictionary<long, object>();
+            var result = new Dictionary<long, long>();
             using (var stream = File.OpenRead(file))
             {
                 using (var reader = new StreamReader(stream))
@@ -68,7 +79,7 @@ namespace TwoSum
                     while ((s = reader.ReadLine()) != null)
                     {
                         var i = long.Parse(s);
-                        result[i] = null;
+                        result[i] = i;
                     }
                 }
             }
