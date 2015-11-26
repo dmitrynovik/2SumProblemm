@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryHeap.cs" />
+    <Compile Include="BinaryHeapTest.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Sum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
