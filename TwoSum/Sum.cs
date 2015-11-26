@@ -19,6 +19,8 @@ namespace TwoSum
     [TestFixture]
     public class Sum
     {
+
+
         [Test]
         public void Compute()
         {
@@ -40,7 +42,7 @@ namespace TwoSum
             }
 
             Console.WriteLine("Output:");
-            Console.WriteLine(counter / 2);
+            Console.WriteLine(counter);
         }
 
         private static Dictionary<long, long> GetLowerHalfOfKeys(IDictionary<long, object> numbers)
