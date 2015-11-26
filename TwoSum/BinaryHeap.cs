@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace TwoSum
 {
@@ -16,6 +17,7 @@ namespace TwoSum
         private int _count = 0;
         private int _capacity = DEFAULT_SIZE;
         private bool _sorted;
+        private bool _min;
 
         public int Count => _count;
 
@@ -35,7 +37,10 @@ namespace TwoSum
             }
         }
 
-        public BinaryHeap() {  }
+        public BinaryHeap(bool min = true)
+        {
+            _min = min;
+        }
 
         private BinaryHeap(T[] data, int count)
         {
@@ -87,7 +92,7 @@ namespace TwoSum
             int p = _count;
             T item = _data[p];
             int par = Parent(p);
-            while (par > -1 && item.CompareTo(_data[par]) < 0)
+            while (par > -1 && (_min ? item.CompareTo(_data[par]) < 0 : item.CompareTo(_data[par]) > 0))
             {
                 _data[p] = _data[par]; //Swap nodes
                 p = par;
@@ -114,9 +119,13 @@ namespace TwoSum
                 }
                 else
                 {
-                    n = _data[ch1].CompareTo(_data[ch2]) < 0 ? ch1 : ch2;
+                    if (_min)
+                        n = _data[ch1].CompareTo(_data[ch2]) < 0 ? ch1 : ch2;
+                    else
+                        n = _data[ch1].CompareTo(_data[ch2]) > 0 ? ch1 : ch2;
                 }
-                if (item.CompareTo(_data[n]) > 0)
+
+                if (_min ? item.CompareTo(_data[n]) > 0 : item.CompareTo(_data[n]) < 0)
                 {
                     _data[p] = _data[n]; //Swap nodes
                     p = n;
