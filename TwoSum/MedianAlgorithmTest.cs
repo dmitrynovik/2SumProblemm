@@ -10,30 +10,28 @@ namespace TwoSum
     public class MedianAlgorithmTest
     {
         [Test]
+        public void TestMedian1to2()
+        {
+            AssertMedian(1, Enumerable.Range(1, 2));
+        }
+
+        [Test]
         public void TestMedian0to9()
         {
-            var items = new[] { 9, 2, 6, 7, 8, 5, 4, 3, 1 };
-            var median = new MedianAlgorithm();
-            items.ToList().ForEach(x =>
-            {
-                median.Add(x);
-            });
+            AssertMedian(4, new[] {9, 2, 6, 7, 8, 5, 4, 3, 1, 0});
+        }
 
-            Assert.AreEqual(5, median.Add(0));
+        private static void AssertMedian(int assert, IEnumerable<int> items)
+        {
+            var median = new MedianAlgorithm();
+            items.ToList().ForEach(x => { median.Add(x); });
+            Assert.AreEqual(assert, median.Median());
         }
 
         [Test]
         public void TestMedianOf100()
         {
-            var median = new MedianAlgorithm();
-            Enumerable.Range(1, 99)
-                .ToList()
-                .ForEach(x =>
-                {
-                    median.Add(x);
-                });
-
-            Assert.AreEqual(51, median.Add(100));
+            AssertMedian(50, Enumerable.Range(1, 100));
         }
 
         [Test]
@@ -46,19 +44,13 @@ namespace TwoSum
                 .Select(i => (int)i)
                 .ToArray();
 
-            var list = new List<int>(capacity);
             var algorithm = new MedianAlgorithm();
-            long cum = 0;
-            foreach (var n in numbers)
-            {
-                var median = algorithm.Add(n);
-                cum += median;
-            }
+            long cum = numbers.Select(n => algorithm.Add(n)).Aggregate<int, long>(0, (current, median) => current + median);
 
             var result = cum%capacity;
             Console.WriteLine("The medians answer: {0}", result);
         }
         // A1: 427
-        // A2: 5129
+        // A2: 1213
     }
 }

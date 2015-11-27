@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TwoSum
 {
@@ -32,12 +33,16 @@ namespace TwoSum
                 }
             }
 
+            return Median();
+        }
+
+        public int Median()
+        {
             if (_minQueue.Count == _maxQueue.Count && _minQueue.Count == 0)
             {
                 return default(int);
             }
-
-            return (_maxQueue.Count >= _minQueue.Count) ? _maxQueue.Peek() : _minQueue.Peek();
+            return (_maxQueue.Count > _minQueue.Count) ? _maxQueue.Peek() : _minQueue.Peek();
         }
     }
 }
